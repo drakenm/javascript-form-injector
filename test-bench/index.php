@@ -9,7 +9,7 @@
         <p>This page is working!</p>
         <form action="" method="post">
             <input type="tel">
-            <div class="injection-container"></div>
+            <div id="injection-container"></div>
         </form>
     </body>
 </html>
