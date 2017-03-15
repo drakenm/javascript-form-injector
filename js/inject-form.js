@@ -34,7 +34,6 @@ function injectForm(options) {
                 inputs[i].type = options.input1.type || "text";
             }
         }
-        input1.type = options.inp1.type || "text";
         // inject our form
         document.getElementById('injection-container').appendChild(frmEl);
     });
