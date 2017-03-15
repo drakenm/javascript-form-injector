@@ -30,7 +30,7 @@ function injectForm(options) {
         var inputs = {};
         if ( options.inputCount && options.inputCount > 0 ) {
             for (var i = 0; i < inputCount; i++) {
-                var inputs[i] = document.createElement('input');
+                inputs[i] = document.createElement('input');
                 inputs[i].type = options.input1.type || "text";
             }
         }
