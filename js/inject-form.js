@@ -24,8 +24,17 @@ function injectForm(options) {
     $(function() {
         var frmEl = document.createElement('form');
         frmEl.id = options.formID || "nested-form";
+        frmEl.class = options.formClass || "";
         frmEl.action = options.formAction || "";
         frmEl.method = "POST";
+        var inputs = {};
+        if ( options.inputCount && options.inputCount > 0 ) {
+            for (var i = 0; i < inputCount; i++) {
+                var inputs[i] = document.createElement('input');
+                inputs[i].type = options.input1.type || "text";
+            }
+        }
+        input1.type = options.inp1.type || "text";
         // inject our form
         document.getElementById('injection-container').appendChild(frmEl);
     });
