@@ -14,14 +14,13 @@ if(!window.jQuery)
     script.onload = injectForm;
     ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( script );
 } else {
+    // jquery to determine when the document is ready
     $(function() {
         injectForm();
     });
 }
 
 function injectForm(options) {
-    // jquery to determine when the document is ready
-    $(function() {
         var frmEl = document.createElement('form');
         frmEl.id = options.formID || "nested-form";
         frmEl.class = options.formClass || "";
@@ -36,5 +35,5 @@ function injectForm(options) {
         }
         // inject our form
         document.getElementById('injection-container').appendChild(frmEl);
-    });
 }
+
