@@ -3,51 +3,92 @@
 * @author Nick Drake
 */
 
+// default/backup onload event for DOM readiness
+//window.onload = function() {
+//    var inputFields = injectForm(myForm);
+//    var injForm = document.getElementById("injection-container").firstChild;
+//    for (var key in inputFields) {
+//        injForm.appendChild(inputFields[key]);
+//    }
+//}
+
+var onloadFlag = 0;
+if ( document.addEventListener ) {
+    document.addEventListener( "DOMContentLoaded", function() { onloadFlag=1; onloadFxn() }, false );
+} else if (document.all && !window.opera){ //Crude test for IE
+    //Define a "blank" external JavaScript tag
+    document.write('<script type="text/javascript" id="contentloadtag" defer="defer" src="javascript:void(0)"><\/script>');
+    var contentloadtag=document.getElementById("contentloadtag");
+    contentloadtag.onreadystatechange=function(){
+        if (this.readyState=="complete") {
+            onloadFlag = 1;
+            onloadFxn();
+        }
+    }
+} else if (/Safari/i.test(navigator.userAgent)) { //Test for Safari
+    var _timer=setInterval(function(){
+        if(/loaded|complete/.test(document.readyState)){
+            clearInterval(_timer);
+            onloadFlag = 1;
+            onloadFxn();
+        }}
+    , 10)
+}
+
+// fallback for our onload script
+window.onload = function() {
+    setTimeout("if (!onloadFlag) onloadFxn()", 0);
+}
+
+// template form object needed to create and inject HTML form
+var myForm = {
+    formId : "myNested-form",
+    formClass : "myFormClass",
+    formAction : "",
+    formMethod : "POST",
+    input : {
+        0 : {
+                inputType : "text",
+                inputName : "descr",
+                inputPlaceholder : "Some text here..."
+            },
+        1 : {
+                inputType : "text",
+                inputName : "info",
+                inputPlaceholder : "Some other text here..."
+            },
+        2 : {
+                inputType : "submit",
+                inputName : "sub",
+                inputValue : "Submit"
+            },
+        },
+}
+
+// inject the form
 function injectForm(options) {
-    var frmEl = document.createElement('form');
-    frmEl.id = options.formID || "nested-form";
+    var frmEl = document.createElement("form");
+    frmEl.id = options.formId || "nested-form";
     frmEl.class = options.formClass || "";
     frmEl.action = options.formAction || "";
     frmEl.method = options.formMethod || "POST";
-    // inject our form
-    document.getElementById('injection-container').appendChild(frmEl);
-    var nstdFrm = document.getElementById('nested-form');
-    
     var inputs = {};
-    if ( options.inputCount && options.inputCount > 0 ) {
-        for (var i = 0; i < inputCount; i++) {
-            inputs[i] = document.createElement('input');
-            inputs[i].type = options.input[i].inputType || "text";
-            nstdFrm.appendChild(inputs[i]);
-        }
+    for (var input in options.input) {
+        inputs[input] = document.createElement("input");
+        inputs[input].type = options.input[input].inputType || "text";
+        inputs[input].name = options.input[input].inputName || "input" + input;
+        inputs[input].placeholder = options.input[input].inputPlaceholder || "";
     }
+    // inject our form
+    document.getElementById("injection-container").appendChild(frmEl);
+    return inputs;
 }
 
-var myForm = {
-    'formID' : 'nested-form',
-    'formClass' : 'myFormClass',
-    'formAction' : '',
-    'formMethod' : 'POST',
-    'inputCount' : '1',
-    'input1' : {
-        'inputType' : 'text',
-        'inputPlaceholder' : 'Some Text Here...',
+// once form has been injected we can inject our input elements
+function onloadFxn() {
+    var inputFields = injectForm(myForm);
+    var injForm = document.getElementById("injection-container").firstChild;
+    for (var key in inputFields) {
+        injForm.appendChild(inputFields[key]);
     }
 }
-
-// if jquery does not exist, link to it
-if(!window.jQuery)
-{
-    var script = document.createElement('script');
-    script.type = "text/javascript";
-    // any cdn will work, google's hosted library is chosen in this instance
-    script.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js";
-    // inject our form after we dynamically insert jquery library
-    ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( script );
-} else {
-    
-}
-// jquery to determine when the document is ready
-$(function() {
-    injectForm(myForm);
-});
