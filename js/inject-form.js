@@ -3,15 +3,6 @@
 * @author Nick Drake
 */
 
-// default/backup onload event for DOM readiness
-//window.onload = function() {
-//    var inputFields = injectForm(myForm);
-//    var injForm = document.getElementById("injection-container").firstChild;
-//    for (var key in inputFields) {
-//        injForm.appendChild(inputFields[key]);
-//    }
-//}
-
 var onloadFlag = 0;
 if ( document.addEventListener ) {
     document.addEventListener( "DOMContentLoaded", function() { onloadFlag=1; onloadFxn() }, false );
@@ -78,6 +69,7 @@ function injectForm(options) {
         inputs[input].type = options.input[input].inputType || "text";
         inputs[input].name = options.input[input].inputName || "input" + input;
         inputs[input].placeholder = options.input[input].inputPlaceholder || "";
+        inputs[input].value = options.input[input].inputValue || "";
     }
     // inject our form
     document.getElementById("injection-container").appendChild(frmEl);
