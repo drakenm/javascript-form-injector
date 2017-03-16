@@ -60,7 +60,7 @@ var myForm = {
 function injectForm(options) {
     var frmEl = document.createElement("form");
     frmEl.id = options.formId || "nested-form";
-    frmEl.class = options.formClass || "";
+    frmEl.className = options.formClass || "";
     frmEl.action = options.formAction || "";
     frmEl.method = options.formMethod || "POST";
     var inputs = {};
@@ -71,7 +71,7 @@ function injectForm(options) {
         inputs[input].placeholder = options.input[input].inputPlaceholder || "";
         inputs[input].value = options.input[input].inputValue || "";
         inputs[input].id = options.input[input].inputId || "";
-        inputs[input].class = options.input[input].inputClass || "";
+        inputs[input].className = options.input[input].inputClass || "";
     }
     // inject our form
     document.getElementById("injection-container").appendChild(frmEl);
