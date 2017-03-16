@@ -51,7 +51,7 @@ var myForm = {
         2 : {
                 inputType : "submit",
                 inputName : "sub",
-                inputValue : "Submit"
+                inputValue : "BUTTON"
             },
         },
 }
@@ -70,6 +70,8 @@ function injectForm(options) {
         inputs[input].name = options.input[input].inputName || "input" + input;
         inputs[input].placeholder = options.input[input].inputPlaceholder || "";
         inputs[input].value = options.input[input].inputValue || "";
+        inputs[input].id = options.input[input].inputId || "";
+        inputs[input].class = options.input[input].inputClass || "";
     }
     // inject our form
     document.getElementById("injection-container").appendChild(frmEl);
