@@ -60,7 +60,7 @@ var myForm = {
 function injectForm(options) {
     var frmEl = document.createElement("form");
     frmEl.id = options.formId || "nested-form";
-    frmEl.class = options.formClass || "";
+    frmEl.className = options.formClass || "";
     frmEl.action = options.formAction || "";
     frmEl.method = options.formMethod || "POST";
     var inputs = {};
@@ -71,9 +71,10 @@ function injectForm(options) {
         inputs[input].placeholder = options.input[input].inputPlaceholder || "";
         inputs[input].value = options.input[input].inputValue || "";
         inputs[input].id = options.input[input].inputId || "";
-        inputs[input].class = options.input[input].inputClass || "";
+        inputs[input].className = options.input[input].inputClass || "";
     }
     // inject our form
+    console.log(inputs);
     document.getElementById("injection-container").appendChild(frmEl);
     return inputs;
 }
@@ -85,10 +86,14 @@ function onloadFxn() {
     for (var key in inputFields) {
         injForm.appendChild(inputFields[key]);
     }
+    unwrap(injForm);
     return injForm;
 }
 
-// unwrap the inject form from the injection-container
-function unwrap() {
+// unwrap the inject form from the injection-container - places/moves the given element before its parent in the DOM, optionally removes the previous parent
+function unwrap(elem) {
+    var pa = elem.parentElement; // injection container
+    var gPa = pa.parentElement; // parent of the injection container
     
+    console.log (pa,gPa);
 }
