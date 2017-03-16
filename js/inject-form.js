@@ -3,9 +3,9 @@
 * @author Nick Drake
 */
 
-var onloadFlag = 0;
+var onloadFlag = 0, injectedForm = '';
 if ( document.addEventListener ) {
-    document.addEventListener( "DOMContentLoaded", function() { onloadFlag=1; onloadFxn() }, false );
+    document.addEventListener( "DOMContentLoaded", function() { onloadFlag=1; injectedForm = onloadFxn() }, false );
 } else if (document.all && !window.opera){ //Crude test for IE
     //Define a "blank" external JavaScript tag
     document.write('<script type="text/javascript" id="contentloadtag" defer="defer" src="javascript:void(0)"><\/script>');
@@ -13,7 +13,7 @@ if ( document.addEventListener ) {
     contentloadtag.onreadystatechange=function(){
         if (this.readyState=="complete") {
             onloadFlag = 1;
-            onloadFxn();
+            injectedForm = onloadFxn();
         }
     }
 } else if (/Safari/i.test(navigator.userAgent)) { //Test for Safari
@@ -21,14 +21,14 @@ if ( document.addEventListener ) {
         if(/loaded|complete/.test(document.readyState)){
             clearInterval(_timer);
             onloadFlag = 1;
-            onloadFxn();
+            injectedForm = onloadFxn();
         }}
     , 10)
 }
 
 // fallback for our onload script
 window.onload = function() {
-    setTimeout("if (!onloadFlag) onloadFxn()", 0);
+    setTimeout("if (!onloadFlag) injectedForm = onloadFxn()", 0);
 }
 
 // template form object needed to create and inject HTML form
@@ -85,4 +85,5 @@ function onloadFxn() {
     for (var key in inputFields) {
         injForm.appendChild(inputFields[key]);
     }
+    return injForm;
 }
