@@ -74,6 +74,7 @@ function injectForm(options) {
         inputs[input].className = options.input[input].inputClass || "";
     }
     // inject our form
+    console.log(inputs);
     document.getElementById("injection-container").appendChild(frmEl);
     return inputs;
 }
@@ -85,5 +86,15 @@ function onloadFxn() {
     for (var key in inputFields) {
         injForm.appendChild(inputFields[key]);
     }
+    unwrap(injForm);
     return injForm;
+}
+
+// unwrap the injected form from the injection-container - places/moves the given element before its parent in the DOM then removes container
+function unwrap(elem) {
+    var pa = elem.parentElement; // injection container
+    while (pa.firstChild) {
+        pa.parentElement.insertBefore(pa.firstChild,pa);
+    }
+    pa.parentElement.removeChild(pa);
 }
