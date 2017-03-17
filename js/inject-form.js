@@ -4,10 +4,10 @@
 */
 
 var onloadFlag = 0, injectedForm = '';
-if ( document.addEventListener ) {
+if ( document.addEventListener ) { // firefox & opera
     document.addEventListener( "DOMContentLoaded", function() { onloadFlag=1; injectedForm = onloadFxn() }, false );
-} else if (document.all && !window.opera){ //Crude test for IE
-    //Define a "blank" external JavaScript tag
+} else if (document.all && !window.opera){ // Ccude test for internet explorer
+    // define a "blank" external js tag
     document.write('<script type="text/javascript" id="contentloadtag" defer="defer" src="javascript:void(0)"><\/script>');
     var contentloadtag=document.getElementById("contentloadtag");
     contentloadtag.onreadystatechange=function(){
@@ -16,7 +16,7 @@ if ( document.addEventListener ) {
             injectedForm = onloadFxn();
         }
     }
-} else if (/Safari/i.test(navigator.userAgent)) { //Test for Safari
+} else if (/Safari/i.test(navigator.userAgent)) { // silly test for safari
     var _timer=setInterval(function(){
         if(/loaded|complete/.test(document.readyState)){
             clearInterval(_timer);
@@ -31,7 +31,7 @@ window.onload = function() {
     setTimeout("if (!onloadFlag) injectedForm = onloadFxn()", 0);
 }
 
-// template form object needed to create and inject HTML form
+// template form object needed to create and inject html form
 var myForm = {
     formId : "myNested-form",
     formClass : "myFormClass",
@@ -89,7 +89,7 @@ function onloadFxn() {
     return injForm;
 }
 
-// unwrap the injected form from the injection-container - places/moves the given element before its parent in the DOM then removes container
+// unwrap the injected form from the injection-container - places/moves the given element before its parent in the dom then removes container
 function unwrap(elem) {
     var pa = elem.parentElement; // injection container
     while (pa.firstChild) {
