@@ -90,10 +90,11 @@ function onloadFxn() {
     return injForm;
 }
 
-// unwrap the inject form from the injection-container - places/moves the given element before its parent in the DOM, optionally removes the previous parent
+// unwrap the injected form from the injection-container - places/moves the given element before its parent in the DOM then removes container
 function unwrap(elem) {
     var pa = elem.parentElement; // injection container
-    var gPa = pa.parentElement; // parent of the injection container
-    
-    console.log (pa,gPa);
+    while (pa.firstChild) {
+        pa.parentElement.insertBefore(pa.firstChild,pa);
+    }
+    pa.parentElement.removeChild(pa);
 }
