@@ -91,9 +91,10 @@ function onloadFxn() {
 
 // unwrap the injected form from the injection-container - places/moves the given element before its parent in the dom then removes container
 function unwrap(elem) {
+    var frag = document.createDocumentFragment();
     var pa = elem.parentElement; // injection container
     while (pa.firstChild) {
-        pa.parentElement.insertBefore(pa.firstChild,pa);
+        frag.appendChild(pa.firstChild);
     }
-    pa.parentElement.removeChild(pa);
+    pa.parentElement.replaceChild(frag, pa);
 }
