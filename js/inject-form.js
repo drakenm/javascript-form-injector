@@ -6,7 +6,7 @@
 var onloadFlag = 0, injectedForm = '';
 if ( document.addEventListener ) { // firefox & opera
     document.addEventListener( "DOMContentLoaded", function() { onloadFlag=1; injectedForm = onloadFxn() }, false );
-} else if (document.all && !window.opera){ // Ccude test for internet explorer
+} else if (document.all && !window.opera){ // crude test for internet explorer
     // define a "blank" external js tag
     document.write('<script type="text/javascript" id="contentloadtag" defer="defer" src="javascript:void(0)"><\/script>');
     var contentloadtag=document.getElementById("contentloadtag");
