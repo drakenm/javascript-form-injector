@@ -74,7 +74,6 @@ function injectForm(options) {
         inputs[input].className = options.input[input].inputClass || "";
     }
     // inject our form
-    console.log(inputs);
     document.getElementById("injection-container").appendChild(frmEl);
     return inputs;
 }
