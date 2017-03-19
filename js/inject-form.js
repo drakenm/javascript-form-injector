@@ -3,32 +3,32 @@
 * @author Nick Drake
 */
 
-var onloadFlag = 0, injectedForm = '';
+var _JFI_onloadFlag = 0, _JFI_injectedForm = '';
 if ( document.addEventListener ) { // firefox & opera
-    document.addEventListener( "DOMContentLoaded", function() { onloadFlag=1; injectedForm = onloadFxn() }, false );
+    document.addEventListener( "DOMContentLoaded", function() { _JFI_onloadFlag=1; _JFI_injectedForm = onloadFxn() }, false );
 } else if (document.all && !window.opera){ // crude test for internet explorer
     // define a "blank" external js tag
     document.write('<script type="text/javascript" id="contentloadtag" defer="defer" src="javascript:void(0)"><\/script>');
     var contentloadtag=document.getElementById("contentloadtag");
     contentloadtag.onreadystatechange=function(){
         if (this.readyState=="complete") {
-            onloadFlag = 1;
-            injectedForm = onloadFxn();
+            _JFI_onloadFlag = 1;
+            _JFI_injectedForm = onloadFxn();
         }
     }
 } else if (/Safari/i.test(navigator.userAgent)) { // silly test for safari
     var _timer=setInterval(function(){
         if(/loaded|complete/.test(document.readyState)){
             clearInterval(_timer);
-            onloadFlag = 1;
-            injectedForm = onloadFxn();
+            _JFI_onloadFlag = 1;
+            _JFI_injectedForm = onloadFxn();
         }}
     , 10)
 }
 
 // fallback for our onload script
 window.onload = function() {
-    setTimeout("if (!onloadFlag) injectedForm = onloadFxn()", 0);
+    setTimeout("if (!_JFI_onloadFlag) _JFI_injectedForm = onloadFxn()", 0);
 }
 
 // template form object needed to create and inject html form
