@@ -6,7 +6,7 @@
 var _JFI_onloadFlag = 0, _JFI_injectedForm = document.createDocumentFragment();
 // onload script
 if ( document.addEventListener ) { // firefox & opera
-    document.addEventListener( "DOMContentLoaded", function() { _JFI_onloadFlag=1; _JFI_injectedForm = injectForm(myForm) }, false );
+    document.addEventListener( "DOMContentLoaded", function() { _JFI_onloadFlag=1; _JFI_injectedForm = injectForm(_JFI_form) }, false );
 } else if (document.all && !window.opera){ // crude test for internet explorer
     // define a "blank" external js tag
     document.write('<script type="text/javascript" id="contentloadtag" defer="defer" src="javascript:void(0)"><\/script>');
@@ -14,7 +14,7 @@ if ( document.addEventListener ) { // firefox & opera
     contentloadtag.onreadystatechange=function(){
         if (this.readyState=="complete") {
             _JFI_onloadFlag = 1;
-            _JFI_injectedForm = injectForm(myForm);
+            _JFI_injectedForm = injectForm(_JFI_form);
         }
     }
 } else if (/Safari/i.test(navigator.userAgent)) { // silly test for safari
@@ -22,18 +22,18 @@ if ( document.addEventListener ) { // firefox & opera
         if(/loaded|complete/.test(document.readyState)){
             clearInterval(_timer);
             _JFI_onloadFlag = 1;
-            _JFI_injectedForm = injectForm(myForm);
+            _JFI_injectedForm = injectForm(_JFI_form);
         }}
     , 10)
 }
 
 // fallback for onload script
 window.onload = function() {
-    setTimeout("if (!_JFI_onloadFlag) _JFI_injectedForm = injectForm(myForm)", 0);
+    setTimeout("if (!_JFI_onloadFlag) _JFI_injectedForm = injectForm(_JFI_form)", 0);
 }
 
 // template form object needed to create and inject html form
-var myForm = {
+var _JFI_form = {
     formId : "myNested-form",
     formClass : "myFormClass",
     formAction : "",
@@ -107,7 +107,7 @@ function parseInputOptions(options) {
 // old code
 // once form has been injected we can inject our input elements
 //function onloadFxn() {
-//    var inputFields = injectForm(myForm);
+//    var inputFields = injectForm(_JFI_form);
 //    var injForm = document.getElementById("injection-container").firstChild;
 //    for (var key in inputFields) {
 //        injForm.appendChild(inputFields[key]);
