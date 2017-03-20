@@ -23,7 +23,8 @@ if ( document.addEventListener ) { // firefox & opera
             clearInterval(_timer);
             _JFI_onloadFlag = 1;
             _JFI_injectedForm = _JFI_injectForm(_JFI_form);
-        }}
+        }
+    }
     , 10)
 }
 
