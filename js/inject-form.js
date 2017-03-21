@@ -4,7 +4,7 @@
 */
 
 // self-executing anonymous function to implement namespacing
-(function( _JFI, document, $, undefined) {
+(function( _JFI, document, undefined) {
     // use strict inside closure
     "use strict";
     
@@ -82,7 +82,7 @@
         }
         return inputs;
     }
-}( window._JFI = window._JFI || {}, document, jQuery ));
+}( window._JFI = window._JFI || {}, document ));
 
 // onload script
 if ( document.addEventListener ) { // firefox & opera
