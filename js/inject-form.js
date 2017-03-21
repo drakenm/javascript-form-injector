@@ -3,16 +3,14 @@
 * @author Nick Drake
 */
 
-// self-executing anonymous function to implement namespacing
+// _JFI namespace closure
 (function( _JFI, document, undefined) {
-    // use strict inside closure
     "use strict";
     
-    // required variables
-    _JFI.onloadFlag = 0;
-    _JFI.injectedForm = document.createDocumentFragment();
+    _JFI.onloadFlag = 0; // used to verify dom readiness in onload scripts
+    _JFI.injectedForm = document.createDocumentFragment(); // will hold the form that is injected into the dom
     
-    // template form object needed to create and inject html form
+    // template form object - at this time any added properties will necessitate the addition of property/attribute assignment in the injectForm and parseInputOptions fxns below
     _JFI.formObj = {
         formId : "myNested-form",
         formClass : "myFormClass",
@@ -42,7 +40,7 @@
     * @name injectForm
     * @param {object} options - an object describing elements and attributes of an html form
     * @returns {object} - Node object (html form element)
-    * @desc inject an html form element
+    * @desc public method: inject an html form element into the dom by replacing a known dom element
     */
     _JFI.injectForm = function(options) {
         var frmEl = document.createElement("form"), injCon = document.getElementById("injection-container");
@@ -51,13 +49,11 @@
         frmEl.action = options.formAction || "";
         frmEl.method = options.formMethod || "POST";
         var inputs = parseInputOptions(options);
-        // inject our form into the document fragment
         _JFI.injectedForm.appendChild(frmEl);
         // place input fields into form
         for (var key in inputs) {
             _JFI.injectedForm.getElementById(frmEl.id).appendChild(inputs[key]);
         }
-        // replace the injection container with the form
         injCon.parentElement.replaceChild(_JFI.injectedForm, injCon);
         return _JFI.injectedForm;
     };
@@ -66,8 +62,8 @@
     * @func 
     * @name parseInputOptions
     * @param {object} options - an object describing elements and attributes of an html form
-    * @returns {array} of input elements
-    * @desc iterate through options object and build input dom elements
+    * @returns {array} node objects (html input elements)
+    * @desc private method: iterate through options object and build input dom elements
     */
     function parseInputOptions(options) {
         var inputs = {};
@@ -84,7 +80,7 @@
     }
 }( window._JFI = window._JFI || {}, document ));
 
-// onload script
+// onload script and fallback
 if ( document.addEventListener ) { // firefox & opera
     document.addEventListener( "DOMContentLoaded", function() { _JFI.onloadFlag=1; _JFI.injectedForm = _JFI.injectForm(_JFI.formObj) }, false );
 } else if (document.all && !window.opera){ // crude test for internet explorer
