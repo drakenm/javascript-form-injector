@@ -9,10 +9,11 @@
     "use strict";
     
     // required variables
-    var _JFI.onloadFlag = 0, _JFI.injectedForm = document.createDocumentFragment();
+    _JFI.onloadFlag = 0;
+    _JFI.injectedForm = document.createDocumentFragment();
     
     // template form object needed to create and inject html form
-    var _JFI.formObj = {
+    _JFI.formObj = {
         formId : "myNested-form",
         formClass : "myFormClass",
         formAction : "",
@@ -43,7 +44,7 @@
     * @returns {object} - Node object (html form element)
     * @desc inject an html form element
     */
-    var _JFI.injectForm = function(options) {
+    _JFI.injectForm = function(options) {
         var frmEl = document.createElement("form"), injCon = document.getElementById("injection-container");
         frmEl.id = options.formId || "nested-form";
         frmEl.className = options.formClass || "";
