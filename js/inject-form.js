@@ -108,25 +108,3 @@ if ( document.addEventListener ) { // firefox & opera
 window.onload = function() {
     setTimeout("if (!_JFI.onloadFlag) _JFI.injectedForm = _JFI.injectForm(_JFI.formObj)", 0);
 }
-
-// old code
-// once form has been injected we can inject our input elements
-//function onloadFxn() {
-//    var inputFields = _JFI.injectForm(_JFI.formObj);
-//    var injForm = document.getElementById("injection-container").firstChild;
-//    for (var key in inputFields) {
-//        injForm.appendChild(inputFields[key]);
-//    }
-//    unwrap(injForm);
-//    return injForm;
-//}
-
-// unwrap the injected form from the injection-container - places/moves the given element before its parent in the dom then removes container
-//function unwrap(elem) {
-//    var frag = document.createDocumentFragment();
-//    var pa = elem.parentElement; // injection container
-//    while (pa.firstChild) {
-//        frag.appendChild(pa.firstChild);
-//    }
-//    pa.parentElement.replaceChild(frag, pa);
-//}
