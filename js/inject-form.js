@@ -43,7 +43,7 @@
     * @returns {object} - Node object (html form element)
     * @desc inject an html form element
     */
-    _JFI.injectForm = function(options) {
+    var _JFI.injectForm = function(options) {
         var frmEl = document.createElement("form"), injCon = document.getElementById("injection-container");
         frmEl.id = options.formId || "nested-form";
         frmEl.className = options.formClass || "";
