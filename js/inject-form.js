@@ -48,7 +48,9 @@
   _JFI.injectForm = function(options) {
     var frmEl = document.createElement("form"), injCon = document.getElementById("JFI-injection-container");
     frmEl.id = options.formId || "injected-form";
+    frmEl.idSel = '#' + frmEl.id;
     frmEl.className = options.formClass || "injected-form";
+    frmEl.classNameSel = '.' + frmEl.className;
     frmEl.name = option.formName || "injected-form";
     frmEl.action = options.formAction || "";
     frmEl.method = options.formMethod || "GET";
@@ -56,7 +58,7 @@
     _JFI.injectedForm.appendChild(frmEl);
     // place input fields into form
     for (var key in inputs) {
-        _JFI.injectedForm.getElementById(frmEl.id).appendChild(inputs[key]);
+      _JFI.injectedForm.querySelector(frmEl.idSel).appendChild(inputs[key]);
     }
     injCon.parentElement.replaceChild(_JFI.injectedForm, injCon);
     return _JFI.injectedForm;
@@ -88,29 +90,29 @@
 
 // onload script and fallback
 if ( document.addEventListener ) { // firefox & opera
-    document.addEventListener( "DOMContentLoaded", function() { _JFI.onloadFlag=1; _JFI.injectedForm = _JFI.injectForm(_JFI.formObj) }, false );
+  document.addEventListener( "DOMContentLoaded", function() { _JFI.onloadFlag=1; _JFI.injectedForm = _JFI.injectForm(_JFI.formObj) }, false );
 } else if (document.all && !window.opera){ // crude test for internet explorer
-    // define a "blank" external js tag
-    document.write('<script type="text/javascript" id="contentloadtag" defer="defer" src="javascript:void(0)"><\/script>');
-    var contentloadtag=document.getElementById("contentloadtag");
-    contentloadtag.onreadystatechange=function(){
-        if (this.readyState=="complete") {
-            _JFI.onloadFlag = 1;
-            _JFI.injectedForm = _JFI.injectForm(_JFI.formObj);
-        }
+  // define a "blank" external js tag
+  document.write('<script type="text/javascript" id="contentloadtag" defer="defer" src="javascript:void(0)"><\/script>');
+  var contentloadtag=document.getElementById("contentloadtag");
+  contentloadtag.onreadystatechange=function(){
+    if (this.readyState=="complete") {
+      _JFI.onloadFlag = 1;
+      _JFI.injectedForm = _JFI.injectForm(_JFI.formObj);
     }
+  }
 } else if (/Safari/i.test(navigator.userAgent)) { // silly test for safari
-    var _timer=setInterval(function(){
-        if(/loaded|complete/.test(document.readyState)){
-            clearInterval(_timer);
-            _JFI.onloadFlag = 1;
-            _JFI.injectedForm = _JFI.injectForm(_JFI.formObj);
-        }
+  var _timer=setInterval(function(){
+    if(/loaded|complete/.test(document.readyState)){
+      clearInterval(_timer);
+      _JFI.onloadFlag = 1;
+      _JFI.injectedForm = _JFI.injectForm(_JFI.formObj);
     }
-    , 10)
+  }
+  , 10)
 }
 
 // fallback for onload script
 window.onload = function() {
-    setTimeout("if (!_JFI.onloadFlag) _JFI.injectedForm = _JFI.injectForm(_JFI.formObj)", 0);
+  setTimeout("if (!_JFI.onloadFlag) _JFI.injectedForm = _JFI.injectForm(_JFI.formObj)", 0);
 }
