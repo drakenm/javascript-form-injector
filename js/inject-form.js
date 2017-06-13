@@ -84,6 +84,8 @@
   }
 }( window._JFI = window._JFI || {}, document ));
 
+
+
 // onload script and fallback
 if ( document.addEventListener ) { // firefox & opera
     document.addEventListener( "DOMContentLoaded", function() { _JFI.onloadFlag=1; _JFI.injectedForm = _JFI.injectForm(_JFI.formObj) }, false );
