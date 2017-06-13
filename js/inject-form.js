@@ -3,7 +3,7 @@
 * @author Nick Drake
 */
 
-// _JFI namespace closure
+// _JFI IIFE Closure
 (function( _JFI, document, undefined) {
   "use strict";
 
@@ -14,6 +14,7 @@
   _JFI.formObj = {
     formId : "JFI-form",
     formClass : "JFI-form",
+    formName  : "JFI-form",
     formAction : "",
     formMethod : "",
     input : {
@@ -51,7 +52,7 @@
     frmEl.idSel = '#' + frmEl.id;
     frmEl.className = options.formClass || "injected-form";
     frmEl.classNameSel = '.' + frmEl.className;
-    frmEl.name = option.formName || "injected-form";
+    frmEl.name = options.formName || "injected-form";
     frmEl.action = options.formAction || "";
     frmEl.method = options.formMethod || "GET";
     var inputs = parseInputOptions(options);
