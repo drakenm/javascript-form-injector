@@ -5,80 +5,86 @@
 
 // _JFI namespace closure
 (function( _JFI, document, undefined) {
-    "use strict";
-    
-    _JFI.onloadFlag = 0; // used to verify dom readiness in onload scripts
-    _JFI.injectedForm = document.createDocumentFragment(); // will hold the form that is injected into the dom
-    
-    // template form object - at this time any added properties will necessitate the addition of property/attribute assignment in the injectForm and parseInputOptions fxns below
-    _JFI.formObj = {
-        formId : "myNested-form",
-        formClass : "myFormClass",
-        formAction : "",
-        formMethod : "POST",
-        input : {
-            0 : {
-                    inputType : "text",
-                    inputName : "descr",
-                    inputPlaceholder : "Some text here..."
-                },
-            1 : {
-                    inputType : "text",
-                    inputName : "info",
-                    inputPlaceholder : "Some other text here..."
-                },
-            2 : {
-                    inputType : "submit",
-                    inputName : "sub",
-                    inputValue : "BUTTON"
-                },
-            },
-    };
-    
-    /**
-    * @func 
-    * @name injectForm
-    * @param {object} options - an object describing elements and attributes of an html form
-    * @returns {object} - Node object (html form element)
-    * @desc public method: inject an html form element into the dom by replacing a known dom element
-    */
-    _JFI.injectForm = function(options) {
-        var frmEl = document.createElement("form"), injCon = document.getElementById("injection-container");
-        frmEl.id = options.formId || "nested-form";
-        frmEl.className = options.formClass || "";
-        frmEl.action = options.formAction || "";
-        frmEl.method = options.formMethod || "POST";
-        var inputs = parseInputOptions(options);
-        _JFI.injectedForm.appendChild(frmEl);
-        // place input fields into form
-        for (var key in inputs) {
-            _JFI.injectedForm.getElementById(frmEl.id).appendChild(inputs[key]);
-        }
-        injCon.parentElement.replaceChild(_JFI.injectedForm, injCon);
-        return _JFI.injectedForm;
-    };
-    
-    /**
-    * @func 
-    * @name parseInputOptions
-    * @param {object} options - an object describing elements and attributes of an html form
-    * @returns {array} node objects (html input elements)
-    * @desc private method: iterate through options object and build input dom elements
-    */
-    function parseInputOptions(options) {
-        var inputs = {};
-        for (var input in options.input) {
-            inputs[input] = document.createElement("input");
-            inputs[input].type = options.input[input].inputType || "text";
-            inputs[input].name = options.input[input].inputName || "input" + input;
-            inputs[input].placeholder = options.input[input].inputPlaceholder || "";
-            inputs[input].value = options.input[input].inputValue || "";
-            inputs[input].id = options.input[input].inputId || "";
-            inputs[input].className = options.input[input].inputClass || "";
-        }
-        return inputs;
+  "use strict";
+
+  _JFI.onloadFlag = 0; // used to verify dom readiness in onload scripts
+  _JFI.injectedForm = document.createDocumentFragment(); // will hold the form that is injected into the dom
+
+  // template form object - at this time any added properties will necessitate the addition of property/attribute assignment in the injectForm and parseInputOptions fxns below
+  _JFI.formObj = {
+    formId : "JFI-form",
+    formClass : "JFI-form",
+    formAction : "",
+    formMethod : "",
+    input : {
+      0 : {
+        inputType : "",
+        inputId   : "",
+        inputName : "",
+        inputValue: ""
+      },
+      1 : {
+        inputType : "",
+        inputId   : "",
+        inputName : "",
+        inputValue: ""
+      },
+      2 : {
+        inputType : "submit",
+        inputId   : "JFI-form-button",
+        inputClass  : "JFI-form-button",
+        inputValue  : "Submit"
+      },
+    },
+  };
+
+  /**
+  * @func 
+  * @name injectForm
+  * @param {object} options - an object describing elements and attributes of an html form
+  * @returns {object} - Node object (html form element)
+  * @desc public method: inject an html form element into the dom by replacing a known dom element
+  */
+  _JFI.injectForm = function(options) {
+    var frmEl = document.createElement("form"), injCon = document.getElementById("JFI-injection-container");
+    frmEl.id = options.formId || "injected-form";
+    frmEl.className = options.formClass || "injected-form";
+    frmEl.name = option.formName || "injected-form";
+    frmEl.action = options.formAction || "";
+    frmEl.method = options.formMethod || "GET";
+    var inputs = parseInputOptions(options);
+    _JFI.injectedForm.appendChild(frmEl);
+    // place input fields into form
+    for (var key in inputs) {
+        _JFI.injectedForm.getElementById(frmEl.id).appendChild(inputs[key]);
     }
+    injCon.parentElement.replaceChild(_JFI.injectedForm, injCon);
+    return _JFI.injectedForm;
+  };
+
+  /**
+  * @func 
+  * @name parseInputOptions
+  * @param {object} options - an object describing elements and attributes of an html form
+  * @returns {array} node objects (html input elements)
+  * @desc private method: iterate through options object and build input dom elements
+  */
+  function parseInputOptions(options) {
+    var inputs = {};
+    for (var input in options.input) {
+      inputs[input] = document.createElement("input");
+      inputs[input].type = options.input[input].inputType || "text";
+      inputs[input].name = options.input[input].inputName || "input" + input;
+      inputs[input].placeholder = options.input[input].inputPlaceholder || "";
+      inputs[input].value = options.input[input].inputValue || "";
+      inputs[input].id = options.input[input].inputId || "";
+      inputs[input].className = options.input[input].inputClass || "";
+    }
+    return inputs;
+  }
 }( window._JFI = window._JFI || {}, document ));
+
+
 
 // onload script and fallback
 if ( document.addEventListener ) { // firefox & opera
